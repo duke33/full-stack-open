@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "/api/persons"; //TODO aca hay un problema, para que funcione en produccio ntieen que ser  "/api/persons" , pero para que funcione en development tiene que ser "/persons". No se como solucionarlo sin cagarla
+const baseUrl = "/api/persons";
 
 const getAll = () => {
     return axios.get(baseUrl).then((response) => response.data);

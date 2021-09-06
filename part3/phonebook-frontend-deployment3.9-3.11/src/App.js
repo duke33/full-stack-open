@@ -38,7 +38,7 @@ const App = () => {
             console.log("result que no anda: ", result); //TODO aca vas a tener que cambiar algo mas adelante
             setPersons(
               persons.map((person) =>
-                person.id !== found.id ? person : result
+                person.id !== found.id ? person : newPerson
               )
             );
 
@@ -69,11 +69,13 @@ const App = () => {
       }
     }
 
-    backendCom
-      .createNewPerson(newPerson)
-      .then((returndPersonAddedResponse) =>
-        setPersons(returndPersonAddedResponse)
+    backendCom.createNewPerson(newPerson).then((returndPersonAddedResponse) => {
+      console.log(
+        "el array que va a hacer render despues de agregar a una persona::::",
+        returndPersonAddedResponse
       );
+      setPersons(persons.concat(returndPersonAddedResponse));
+    });
     setSuccesMessage(`Added ${newPerson.name}`);
 
     setTimeout(() => {
