@@ -12,7 +12,6 @@ const Persons = ({ arrayOfpersons, searchTerm, deleteButton }) => {
       : arrayOfpersons.filter((person) =>
           person.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
-
   return (
     <ul>
       {" "}

@@ -16,10 +16,11 @@ const deletePerson = (id) => {
 };
 
 const replacePhoneNumber = (found, newPerson) => {
-    const responsePuntoData = axios
+    return axios
         .put(`${baseUrl}/${found.id}`, newPerson)
-        .then((response) => response.data);
-    return responsePuntoData;
+        .then((response) => {
+            return response.data
+        });
 };
 
 export default {

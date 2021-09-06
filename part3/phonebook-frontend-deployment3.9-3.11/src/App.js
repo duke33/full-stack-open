@@ -51,11 +51,13 @@ const App = () => {
         backendCom
           .replacePhoneNumber(found, newPerson)
           .then((result) => {
-            console.log("result que no anda: ", result); //TODO aca vas a tener que cambiar algo mas adelante
+            console.log("result que no anda: ", result);
             setPersons(
-              persons.map((person) =>
-                person.id !== found.id ? person : newPerson
-              )
+              persons.map((person) => {
+                return person.id !== found.id
+                  ? person
+                  : { ...person, number: newPerson.number };
+              })
             );
 
             setSuccesMessage(
@@ -118,6 +120,7 @@ const App = () => {
   };
 
   const deleteButton = (id) => {
+    console.log("A ver si loguea este id que lo necesito!!!::::", id);
     const personToBeDeleted = persons.find((x) => x.id === id).name;
     let confirmationMessage = window.confirm(`Delete ${personToBeDeleted} ?`);
     if (confirmationMessage) {
