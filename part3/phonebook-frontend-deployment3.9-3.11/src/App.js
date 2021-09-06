@@ -23,6 +23,22 @@ const App = () => {
     event.preventDefault();
     const newPerson = { name: newName, number: newNumber };
 
+    if (!newPerson.name) {
+      setErrorMessage(`You must provide a contact name`);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+      return;
+    }
+
+    if (!newPerson.number) {
+      setErrorMessage(`You must provide a phone number`);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+      return;
+    }
+
     const found = persons.find(
       (element) => element.name.toUpperCase() === newName.toUpperCase()
     );
@@ -45,6 +61,8 @@ const App = () => {
             setSuccesMessage(
               `Number succesfully changed to ${newPerson.number}`
             );
+            setNewName("");
+            setNewNumber("");
 
             setTimeout(() => {
               setSuccesMessage(null);
@@ -76,6 +94,7 @@ const App = () => {
       );
       setPersons(persons.concat(returndPersonAddedResponse));
     });
+
     setSuccesMessage(`Added ${newPerson.name}`);
 
     setTimeout(() => {
