@@ -1,0 +1,11 @@
+#Created this file as workaround, since I have a conflict with ESLINT and Prettier
+
+# Ignore artifacts:
+build
+coverage
+
+# Ignore all js files:
+*.js
+
+# Ignore all ??:
+*.*
