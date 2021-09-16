@@ -4,6 +4,7 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 require('dotenv').config()
+const logger = require('./utils/logger')
 
 const blogSchema = new mongoose.Schema({
     title: String,
@@ -35,7 +36,7 @@ app.get('/api/blogs', (request, response) => {
 })
 
 app.post('/api/blogs', (request, response) => {
-    console.log('request.body.::', request.body);
+    logger.info('request.body from console.log:::', request.body);
     const blog = new Blog(
         request.body
     )
