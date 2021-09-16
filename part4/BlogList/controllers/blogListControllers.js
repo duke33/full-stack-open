@@ -13,7 +13,6 @@ notesRouter.get('/', (request, response) => {
 })
 
 notesRouter.post('/', (request, response) => {
-    logger.info('request.body from console.log:::', request.body);
     const blog = new Blog(
         request.body
     )
