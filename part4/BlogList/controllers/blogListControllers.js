@@ -1,0 +1,29 @@
+const notesRouter = require('express').Router()
+const Blog = require('../models/noteModel')
+const logger = require('../utils/logger')
+
+
+
+notesRouter.get('/', (request, response) => {
+    Blog
+        .find({})
+        .then(blogs => {
+            response.json(blogs)
+        })
+})
+
+notesRouter.post('/', (request, response) => {
+    logger.info('request.body from console.log:::', request.body);
+    const blog = new Blog(
+        request.body
+    )
+
+    blog
+        .save()
+        .then(result => {
+            response.status(201).json(result)
+        })
+})
+
+
+module.exports = notesRouter
