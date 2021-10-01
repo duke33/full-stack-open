@@ -2,17 +2,18 @@ const { before } = require("lodash")
 const mongoose = require("mongoose")
 const supertest = require("supertest")
 const app = require("../app")
+const Blog = require("../models/blogModel")
 const api = (supertest(app))
 
 
 const initialBlogs = [{
-        title: "Pimera nota del dest",
+        title: "Primer blog del dest",
         author: "bananero",
         url: "wwww cagada.com",
         likes: 132
     },
     {
-        title: "Segunda nota del dest",
+        title: "Segundo blog del dest",
         author: "Willie",
         url: "wwww.liberenlo.mx",
         likes: 1000
@@ -22,14 +23,18 @@ const initialBlogs = [{
 
 beforeEach(
     async() => {
-
+        await Blog.deleteMany({})
+        let blogObject = new Blog(initialBlogs[0])
+        await blogObject.save()
+        blogObject = new Blog(initialBlogs[1])
+        await blogObject.save()
     }
 )
 
 
 
 
-test("notes are returned as json", async() => {
+test("blogs are returned as json", async() => {
 
     await api
         .get("/api/blogs")
@@ -38,13 +43,16 @@ test("notes are returned as json", async() => {
 
 }, 10000000)
 
-test("there are x blogs", async() => {
+test("all blogs are returned", async() => {
     const response = await api.get("/api/blogs").expect("Content-Type", /application\/json/)
-    expect(response.body).toHaveLength(7)
+    expect(response.body).toHaveLength(initialBlogs.length)
+})
 
 
-
-
+test("a specific blog is returned within the returned blogs", async() => {
+    const response = await api.get("/api/blogs")
+    const titles = response.body.map(r => r.title)
+    expect(titles).toContain("Primera nota del dest")
 })
 
 afterAll(() => {
