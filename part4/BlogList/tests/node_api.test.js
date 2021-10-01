@@ -52,7 +52,7 @@ test("all blogs are returned", async() => {
 test("a specific blog is returned within the returned blogs", async() => {
     const response = await api.get("/api/blogs")
     const titles = response.body.map(r => r.title)
-    expect(titles).toContain("Primera nota del dest")
+    expect(titles).toContainEqual("Primer blog del dest")
 })
 
 afterAll(() => {
