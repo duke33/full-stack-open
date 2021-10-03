@@ -3,12 +3,15 @@ const Blog = require('../models/blogModel')
 
 
 
-blogsRouter.get('/', async(request, response) => {
-    const blogs = await Blog.find({})
-    response.json(blogs)
+blogsRouter.get('/', async(request, response, next) => {
+    try {
+        const blogs = await Blog.find({})
+        response.json(blogs)
+    } catch (e) { next(e) }
+
 })
 
-blogsRouter.post('/', async(request, response) => {
+blogsRouter.post('/', async(request, response, next) => {
 
     if (request.body.title === undefined) {
         return response.status(400).json({ error: 'tittle missing' })
@@ -22,9 +25,12 @@ blogsRouter.post('/', async(request, response) => {
     const blog = new Blog(
         request.body
     )
-
-    const result = await blog.save()
-    response.status(201).json(result)
+    try {
+        const result = await blog.save()
+        response.status(201).json(result)
+    } catch (exeption) {
+        next(exeption)
+    }
 })
 
 
