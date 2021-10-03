@@ -1,5 +1,5 @@
 // Load the full build.
-const _ = require('lodash');
+const _ = require('lodash')
 
 
 
@@ -29,11 +29,11 @@ const favoriteBlog = (arrayOfBlogs) => {
 
 const mostBlogs = (arrayOfBlogs) => {
 
-    var tagArray = _.map(listWithAlot, 'author'); //create an array of tag values from the object array. From here you get the count!! It need the result from chain
-    console.log('tag ARRAY', tagArray);
+    var tagArray = _.map(listWithAlot, 'author') //create an array of tag values from the object array. From here you get the count!! It need the result from chain
+    console.log('tag ARRAY', tagArray)
     let mostBlogsAuthor = _.chain(tagArray).countBy().toPairs().max(_.last).head().value()
 
-    const countOccurrences = tagArray.reduce((a, v) => (v === mostBlogsAuthor ? a + 1 : a), 0);
+    const countOccurrences = tagArray.reduce((a, v) => (v === mostBlogsAuthor ? a + 1 : a), 0)
 
     return { author: mostBlogsAuthor, blogs: countOccurrences }
 
