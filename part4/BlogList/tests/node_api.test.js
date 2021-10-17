@@ -121,7 +121,7 @@ describe('addition of a new blog', () => {
             title: 'No likes',
             author: 'admin',
             url: 'https',
-            userId: miUsuario.id //TODO esto esta jodido, cambia siempre, vas a tener que ver la forma de guardar uno y buscar el puto id
+            userId: miUsuario.id
         }
 
         const banana = await api
@@ -250,7 +250,7 @@ describe('when there is initially one user in db', () => {
             .expect(400)
             .expect('Content-Type', /application\/json/)
 
-        expect(result.body.error).toContain('`username` to be unique') //TODO esto esta mal escrito de una
+        expect(result.body.error).toContain('`username` to be unique')
 
         const usersAtEnd = await helper.usersInDb()
         expect(usersAtEnd).toHaveLength(usersAtStart.length)

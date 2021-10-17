@@ -20,7 +20,6 @@ const userSchema = new mongoose.Schema({
 userSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         if (document._id) { //Dirty fix for below problem: "This is problematic, because if blogs is empty it will cause an error"
-            console.log('puto string')
             returnedObject.id = returnedObject._id.toString() //This is problematic, because if blogs is empty it will cause an error
 
             delete returnedObject._id

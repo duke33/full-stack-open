@@ -3,10 +3,6 @@ const _ = require('lodash')
 
 
 
-const dummy = (blogs) => {
-    return 1
-}
-
 
 const totalLikes = (arrayOfBlogs) => {
 
@@ -27,10 +23,9 @@ const favoriteBlog = (arrayOfBlogs) => {
     return arrayOfBlogs.reduce(reducer, 0)
 }
 
-const mostBlogs = (arrayOfBlogs) => {
+const mostBlogs = (listWithAlot) => {
 
     var tagArray = _.map(listWithAlot, 'author') //create an array of tag values from the object array. From here you get the count!! It need the result from chain
-    console.log('tag ARRAY', tagArray)
     let mostBlogsAuthor = _.chain(tagArray).countBy().toPairs().max(_.last).head().value()
 
     const countOccurrences = tagArray.reduce((a, v) => (v === mostBlogsAuthor ? a + 1 : a), 0)
@@ -42,7 +37,6 @@ const mostBlogs = (arrayOfBlogs) => {
 
 
 module.exports = {
-    dummy,
     totalLikes,
     favoriteBlog,
     mostBlogs
