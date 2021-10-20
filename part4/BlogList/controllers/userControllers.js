@@ -27,10 +27,10 @@ userRouter.post('/', async(request, response, next) => {
     try {
         const savedUser = await user.save()
         response.json(savedUser)
-    } catch (e) { next(e) }
+    } catch (e) {
+        next(e)
+    }
 })
-
-
 
 userRouter.get('/', async(request, response, next) => {
     try {
@@ -39,7 +39,5 @@ userRouter.get('/', async(request, response, next) => {
     } catch (e) { next(e) }
 
 })
-
-
 
 module.exports = userRouter

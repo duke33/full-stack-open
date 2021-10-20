@@ -91,12 +91,10 @@ const logInUser = async() => {
         password: 'adksjlflkjsdflk'
     }
 
-    //TODO rewrite this
-    const sandia = await api
+    return await api
         .post('/api/login')
         .send(userToLogIn)
 
-    return sandia
 }
 
 module.exports = {
