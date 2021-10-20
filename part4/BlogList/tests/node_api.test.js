@@ -15,27 +15,16 @@ beforeEach(
         //Creates the initial users on the DB
         await User.deleteMany({})
         const userObject = helper.initialUsers.map(user => new User(user))
-        console.log('userObject', userObject)
         const userPromiseArray = userObject.map(user => user.save())
-        await Promise.all(userPromiseArray)
-
-
-        //Assigns users to the initial notes
-        const usersSavedToDB = await helper.usersInDb()
-        const usersId = usersSavedToDB.map((user => user._id.toString()))
-        const initialBlogsWithUsers = helper.assignUsersToBlogs(usersId, helper.initialBlogs)
+        await Promise.all(userPromiseArray) //TODO juntar este Promise.all con el otro en un solo array
 
 
         //Creates the initial notes on the DB
         await Blog.deleteMany({})
-        const blogObject = initialBlogsWithUsers.map(blog => new Blog(blog))
+        const blogObject = helper.initialBlogs.map(blog => new Blog(blog))
         const blogPromiseArray = blogObject.map(blog => blog.save())
         await Promise.all(blogPromiseArray)
 
-        const realBlogsAtStart = await helper.blogsInDb() //TODO DELETE
-        console.log('blogsAtStart: ', realBlogsAtStart)
-        const users = await User.find({})
-        console.log('users:', users)
     })
 
 
@@ -167,14 +156,9 @@ describe('addition of a new blog', () => {
 describe('deletion of a Blog', () => {
     test('succeeds with status code 204 if id is valid', async() => {
         const loggedUser = await helper.logInUser()
-        //aca tendrias que encontrar los blogs del usuario que esta logueado, usar populate, elegir uno al azar y borrarlo.
-        //Funciona de casualidad porque el primer blog que hay en la db esta hecho por el usuario que casualmente esta logueado
         const blogsAtStart = await helper.blogsInDb()
-        console.log('loggedUser', loggedUser.body)
-        console.log('blogsAtStart: ', blogsAtStart)
         const userWithBlogs = await User.findById(loggedUser.body.id).populate('blogs')
 
-        console.log('userWithBlogs: ', userWithBlogs)
 
         const blogToDelete = userWithBlogs.blogs[0]
 
@@ -257,21 +241,19 @@ describe('when there is initially one user in db', () => {
 
     })
 
-    test('creation fails with proper statuscode and message if username already taken', async() => {
+    test('creation fails with proper status code and message if username already taken', async() => {
 
         const usersAtStart = await helper.usersInDb()
-
-        const newUser = {
+        const repeatedUser = {
             username: 'root',
-            name: 'SuperUser',
-            password: 'banana'
+            name: 'any',
+            password: 'un pass cualquieras'
         }
         const result = await api
             .post('/api/users')
-            .send(newUser)
+            .send(repeatedUser)
             .expect(400)
             .expect('Content-Type', /application\/json/)
-
         expect(result.body.error).toContain('`username` to be unique')
 
         const usersAtEnd = await helper.usersInDb()

@@ -40,12 +40,7 @@ blogsRouter.post('/', async(request, response, next) => {
     }
 
     const user = await User.findById(decodedToken.id) //aca hay un problema
-    const allUsers = await User.find({})
-    console.log('decodedToken.id: ', decodedToken.id) //revisar este id 616da8e945dfe45340002170 es string
-    console.log('decodedToken.id typeof', typeof decodedToken.id)
-    console.log('user from api req:', user) //esto no lo encuentra
-    console.log('request.user', request.user)
-    console.log('allUsers', allUsers)
+
 
 
     const blog = new Blog({

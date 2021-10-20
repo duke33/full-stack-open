@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     }],
 })
 
-//userSchema.plugin(uniqueValidator) Temporarily disabled due to bug https://github.com/blakehaswell/mongoose-unique-validator/issues/131
+//userSchema.plugin(uniqueValidator) //Temporarily disabled due to bug https://github.com/blakehaswell/mongoose-unique-validator/issues/131
 
 
 userSchema.set('toJSON', {
