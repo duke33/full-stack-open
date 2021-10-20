@@ -10,7 +10,6 @@ blogsRouter.get('/', async(request, response, next) => {
         const blogs = await Blog.find({}).populate('user', { username: 1, name: 1, _id: 0 })
         response.json(blogs)
     } catch (e) { next(e) }
-    response.render()
 })
 
 blogsRouter.get('/:id', async(request, response, next) => {
@@ -37,11 +36,16 @@ blogsRouter.post('/', async(request, response, next) => {
 
     if (!token || !decodedToken.id) {
         return response.status(401).json({ error: 'token missing or invalid' })
+
     }
 
-    const user = await User.findById(decodedToken.id)
-
-
+    const user = await User.findById(decodedToken.id) //aca hay un problema
+    const allUsers = await User.find({})
+    console.log('decodedToken.id: ', decodedToken.id) //revisar este id 616da8e945dfe45340002170 es string
+    console.log('decodedToken.id typeof', typeof decodedToken.id)
+    console.log('user from api req:', user) //esto no lo encuentra
+    console.log('request.user', request.user)
+    console.log('allUsers', allUsers)
 
 
     const blog = new Blog({
@@ -68,8 +72,7 @@ blogsRouter.delete('/:id', async(request, response, next) => {
     }
 
     const blogToBeDeleted = await Blog.findById(request.params.id)
-    const blogOwnerId = blogToBeDeleted.user.toString() //Comprobar que sea el id
-
+    const blogOwnerId = blogToBeDeleted.user.toString()
     if (blogOwnerId === request.user) {
 
         try {

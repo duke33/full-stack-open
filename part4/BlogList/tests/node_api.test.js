@@ -9,13 +9,33 @@ const bcrypt = require('bcrypt')
 
 
 
+
 beforeEach(
     async() => {
-        await Blog.deleteMany({})
-        const blogObject = helper.initialBlogs.map(blog => new Blog(blog))
-        const promiseArray = blogObject.map(blog => blog.save())
-        await Promise.all(promiseArray)
+        //Creates the initial users on the DB
+        await User.deleteMany({})
+        const userObject = helper.initialUsers.map(user => new User(user))
+        console.log('userObject', userObject)
+        const userPromiseArray = userObject.map(user => user.save())
+        await Promise.all(userPromiseArray)
 
+
+        //Assigns users to the initial notes
+        const usersSavedToDB = await helper.usersInDb()
+        const usersId = usersSavedToDB.map((user => user._id.toString()))
+        const initialBlogsWithUsers = helper.assignUsersToBlogs(usersId, helper.initialBlogs)
+
+
+        //Creates the initial notes on the DB
+        await Blog.deleteMany({})
+        const blogObject = initialBlogsWithUsers.map(blog => new Blog(blog))
+        const blogPromiseArray = blogObject.map(blog => blog.save())
+        await Promise.all(blogPromiseArray)
+
+        const realBlogsAtStart = await helper.blogsInDb() //TODO DELETE
+        console.log('blogsAtStart: ', realBlogsAtStart)
+        const users = await User.find({})
+        console.log('users:', users)
     })
 
 
@@ -48,33 +68,27 @@ describe('when there is initially some blogs saved', () => {
 
 describe('addition of a new blog', () => {
 
-    //This beforeEach block is neccesary to get a User ID since the blog objects are required to have a ID field
-
+    //This will login a user, to be used in all of these tests. I'm not sure if the user will stay logged in after finishing this block
+    let loggedUser
     beforeEach(async() => {
-        await User.deleteMany({})
-
-        const passwordHash = await bcrypt.hash('sekret', 10)
-        const user = new User({ username: 'testing', passwordHash })
-        await user.save()
+        loggedUser = await helper.logInUser()
 
     })
 
-    test('verifies that making an HTTP POST request to the /api/blogs url successfully creates a new blog post', async() => {
+    test('making an HTTP POST request to the /api/blogs url successfully creates a new blog post', async() => {
 
-        const miUsuario = await User.findOne({})
-
-        const newPost = {
+        //Login is required to get the JWT for posting
+        const bodyToPost = {
             title: 'verifies that making an HTTP POST request',
             author: 'admin',
             url: 'https',
             likes: 8,
-            userId: miUsuario.id
+
         }
-
-
         await api
             .post('/api/blogs')
-            .send(newPost)
+            .set('Authorization', `bearer ${loggedUser.body.token}`)
+            .send(bodyToPost)
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
@@ -103,7 +117,7 @@ describe('addition of a new blog', () => {
 
     })
 
-    test('verifies that the unique identifier property of the blog posts is named _id', async() => {
+    test('the unique identifier property of the blog posts is named _id', async() => {
 
         const allBlogs = await api
             .get('/api/blogs')
@@ -114,26 +128,25 @@ describe('addition of a new blog', () => {
     })
 
 
-    test('verifies that if the likes property is missing from the request, it will default to the value 0', async() => {
-        const miUsuario = await User.findOne({})
+    test('if the likes property is missing from the request, it will default to the value 0', async() => {
 
-        const newPost = {
+        const bodyToPost = {
             title: 'No likes',
             author: 'admin',
             url: 'https',
-            userId: miUsuario.id
         }
 
         const banana = await api
             .post('/api/blogs')
-            .send(newPost)
+            .set('Authorization', `bearer ${loggedUser.body.token}`)
+            .send(bodyToPost)
 
 
         expect(banana.body.likes).toBe(0)
 
     })
 
-    test('verifies that if the title and url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request.', async() => {
+    test('if the title and url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request.', async() => {
 
         const newPost = {
             author: 'admin',
@@ -153,12 +166,21 @@ describe('addition of a new blog', () => {
 
 describe('deletion of a Blog', () => {
     test('succeeds with status code 204 if id is valid', async() => {
+        const loggedUser = await helper.logInUser()
+        //aca tendrias que encontrar los blogs del usuario que esta logueado, usar populate, elegir uno al azar y borrarlo.
+        //Funciona de casualidad porque el primer blog que hay en la db esta hecho por el usuario que casualmente esta logueado
         const blogsAtStart = await helper.blogsInDb()
-        const blogToDelete = blogsAtStart[0]
+        console.log('loggedUser', loggedUser.body)
+        console.log('blogsAtStart: ', blogsAtStart)
+        const userWithBlogs = await User.findById(loggedUser.body.id).populate('blogs')
 
+        console.log('userWithBlogs: ', userWithBlogs)
+
+        const blogToDelete = userWithBlogs.blogs[0]
 
         await api
             .delete(`/api/blogs/${blogToDelete._id}`)
+            .set('Authorization', `bearer ${loggedUser.body.token}`)
             .expect(204)
 
         const blogsAtEnd = await helper.blogsInDb()
