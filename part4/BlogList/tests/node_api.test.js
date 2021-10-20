@@ -12,18 +12,18 @@ const bcrypt = require('bcrypt')
 
 beforeEach(
     async() => {
-        //Creates the initial users on the DB
+        //Creates the initial users
         await User.deleteMany({})
         const userObject = helper.initialUsers.map(user => new User(user))
         const userPromiseArray = userObject.map(user => user.save())
-        await Promise.all(userPromiseArray) //TODO juntar este Promise.all con el otro en un solo array
 
-
-        //Creates the initial notes on the DB
+        //Creates the initial notes
         await Blog.deleteMany({})
         const blogObject = helper.initialBlogs.map(blog => new Blog(blog))
         const blogPromiseArray = blogObject.map(blog => blog.save())
-        await Promise.all(blogPromiseArray)
+
+        //Saves users and notes to the database
+        await Promise.all(blogPromiseArray, userPromiseArray)
 
     })
 
