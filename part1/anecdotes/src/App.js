@@ -13,7 +13,7 @@ const App = () => {
 
   const [selected, setSelected] = useState(0);
   const [points, setPoints] = useState([0, 0, 0, 0, 0, 0, 0]);
-  const mostVoted = points.indexOf(Math.max(...points));
+  
 
   const handleNextAnectodeClick = () => {
     const random = Math.floor(Math.random() * anecdotes.length);
@@ -29,12 +29,37 @@ const App = () => {
     return handler;
   };
 
-  return (
-    <div>
+  
+  const Anecdote = () => {
+    return (
+      <div>
       <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
-      <h1>Anecdote with most votes</h1>
-      <p>{anecdotes[mostVoted]}</p>
+      <p> has {points[selected]} votes</p>
+      </div>
+    )
+    }
+  
+ const AnecdoteWinner = () => {
+  const mostVotedIndex = points.indexOf(Math.max(...points));
+  const mostVotedVotesCount = Math.max(...points)
+   console.log(points)
+   console.log('mostVotedVotesCount', mostVotedVotesCount)
+  if(mostVotedVotesCount===0){return (<div>No votes yet!</div>)}
+    return (
+      <div>    <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[mostVotedIndex]}</p>
+      <p> has {points[mostVotedIndex]} votes</p></div>
+    )
+  }
+  
+  
+
+
+  return (
+    <div>
+      <Anecdote/>
+      <AnecdoteWinner/>
       <button onClick={handleNextAnectodeClick}> next anecdote</button>
       <button onClick={handleVoteClick(selected)}> Vote</button>
     </div>
