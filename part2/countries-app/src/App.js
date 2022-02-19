@@ -11,11 +11,11 @@ const App = () => {
 
   const hook = () => {
     console.log("countryEffect");
-    axios.get("https://restcountries.eu/rest/v2/all").then((response) => {
+    axios.get("https://restcountries.com/v3.1/all").then((response) => {
       console.log("Country promise fulfilled");
       setAllCountries(response.data);
-      console.log(response.data);
-    });
+      console.log("response.data",response.data);
+    }).catch((err)=>{console.log('no response from restcountries api')});
   };
 
   useEffect(hook, []);
@@ -26,10 +26,13 @@ const App = () => {
     setNewFilter(event.target.value);
     if (newFilter) {
       const regex = new RegExp(newFilter, "i");
+
+      console.log('regex: ', regex)
+
       const filteredCountries = () =>
-        allCountries.filter((country) => country.name.match(regex));
+        allCountries.filter((country) => country.name.common.match(regex));
+        
       setCountries(filteredCountries);
-      console.log("filteredCountries:: ", countries);
     }
   };
 
