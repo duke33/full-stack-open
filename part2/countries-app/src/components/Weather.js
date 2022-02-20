@@ -1,14 +1,6 @@
 import axios from "axios";
 import React from "react";
 const Weather = ({ cityForWeather, weather }) => {
-  //
-  //
-  //
-
-  //
-  //
-  //
-
   console.log("entra al weather al menos");
   console.log("cityForWeather: ", cityForWeather);
   console.log("weatherInfo: ", weather);
