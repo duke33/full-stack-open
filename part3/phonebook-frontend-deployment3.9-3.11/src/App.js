@@ -117,7 +117,7 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
-  const handlSearchChange = (event) => {
+  const handleSearchChange = (event) => {
     setNewSearch(event.target.value);
   };
 
@@ -136,7 +136,7 @@ const App = () => {
       <h2> Phonebook </h2>
       <Notification message={succesMessage} />
       <ErrorMsg message={errorMessage} />
-      <Filter handler={handlSearchChange} /> <h2> add a new </h2>{" "}
+      <Filter handler={handleSearchChange} /> <h2> add a new contact </h2>{" "}
       <PersonForm
         addPerson={addPerson}
         newName={newName}
