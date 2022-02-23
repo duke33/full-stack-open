@@ -1,0 +1,30 @@
+^\b\d{2,3}[-]?\d{3}\d{4,}\b$
+^\b\d{2,3}[-]?\d{7,}\b
+^\d{2,3}[-]?\d{7,}
+
+^(?=.\b\d{2,3}[-]?\d{7,}){8,}$
+
+
+^\d{2,3}[-|\d]?\d{7,}
+
+
+
+
+
+^The start of a string
+\b Word Boundary (usually a position between /w and /W)
+\d 	Matches one digit
+{2,3} {5, 10}	Matches everything between 5-10
+[-] [xyz]	Matches a range of characters (e.g. x or y or z)
+? Matches 0 or 1 of the previous
+\d Matches one digit
+{3} Matches exactly 5
+\d Matches one digit
+{4} Matches exactly 4
+\b Word Boundary (usually a position between /w and /W)
+$ The end of a string
+
+
+
+09-1234556 and 040-22334455 are valid phone numbers
+1234556, 1-22334455 and 10-22-334455 are invalid
