@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "deploy": "git subtree push --prefix part3/phonebook-backend-deployment3.22  heroku master"
   },
   "author": "",
