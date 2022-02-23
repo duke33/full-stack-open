@@ -14,7 +14,13 @@ const PersonForm = ({
       </div>
       <div>
         number:
-        <input type="number" value={newNumber} onChange={handleNumberChange} />
+        <input
+          type="tel"
+          pattern="[0-9]+([-\,][0-9]+)?"
+          placeholder="999-99999999"
+          value={newNumber}
+          onChange={handleNumberChange}
+        />
       </div>
       <div>
         <button type="submit">Add</button>
