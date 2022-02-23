@@ -71,8 +71,10 @@ app.delete("/api/persons/:id", (req, res, next) => {
 });
 
 app.put("/api/persons/:id", (req, res, next) => {
-  console.log("este es el body del PUT", req.body);
-  console.log("este es elid que pasa PUT", req.params.id);
+  console.log("[1;31m TM_LINE_NUMBER Entra al put!");
+
+  // console.log("este es el body del PUT", req.body);
+  // console.log("este es elid que pasa PUT", req.params.id);
 
   Person.findByIdAndUpdate(req.params.id, { number: req.body.number })
     .then((personUpdated) => {

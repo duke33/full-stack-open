@@ -22,72 +22,71 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
     const newPerson = { name: newName, number: newNumber };
-    // This validation was from a previous exercise, now validation is carried by backend
-    // if (!newPerson.name) {
-    //   setErrorMessage(`You must provide a contact name`);
-    //   setTimeout(() => {
-    //     setErrorMessage(null);
-    //   }, 5000);
-    //   return;
-    // }
+    if (!newPerson.name) {
+      setErrorMessage(`You must provide a contact name`);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+      return;
+    }
 
-    // if (!newPerson.number) {
-    //   setErrorMessage(`You must provide a phone number`);
-    //   setTimeout(() => {
-    //     setErrorMessage(null);
-    //   }, 5000);
-    //   return;
-    // }
+    if (!newPerson.number) {
+      setErrorMessage(`You must provide a phone number`);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+      return;
+    }
 
-    // const found = persons.find(
-    //   (element) => element.name.toUpperCase() === newName.toUpperCase()
-    // );
+    const found = persons.find(
+      (element) => element.name.toUpperCase() === newName.toUpperCase()
+    );
 
-    // if (found) {
-    //   let confirmationMessage = window.confirm(
-    //     `${newPerson.name} is already added to phonebook, replace the older numberl with a new one? ?`
-    //   );
-    //   if (confirmationMessage) {
-    //     backendCom
-    //       .replacePhoneNumber(found, newPerson)
-    //       .then((result) => {
-    //         console.log("result que no anda: ", result);
-    //         setPersons(
-    //           persons.map((person) => {
-    //             return person.id !== found.id
-    //               ? person
-    //               : { ...person, number: newPerson.number };
-    //           })
-    //         );
+    if (found) {
+      let confirmationMessage = window.confirm(
+        `${newPerson.name} is already added to phonebook, replace the older number with a new one? ?`
+      );
+      if (confirmationMessage) {
+        backendCom
+          .replacePhoneNumber(found, newPerson)
+          .then((result) => {
+            console.log("result que no anda: ", result);
+            setPersons(
+              persons.map((person) => {
+                return person.id !== found.id
+                  ? person
+                  : { ...person, number: newPerson.number };
+              })
+            );
 
-    //         setSuccesMessage(
-    //           `Number succesfully changed to ${newPerson.number}`
-    //         );
-    //         setNewName("");
-    //         setNewNumber("");
+            setSuccesMessage(
+              `Number succesfully changed to ${newPerson.number}`
+            );
+            setNewName("");
+            setNewNumber("");
 
-    //         setTimeout(() => {
-    //           setSuccesMessage(null);
-    //         }, 5000);
-    //       })
+            setTimeout(() => {
+              setSuccesMessage(null);
+            }, 5000);
+          })
 
-    //       .catch((error) => {
-    //         console.log("entro al error que yo queria!!!!");
-    //         console.log("error: ", error);
-    //         setErrorMessage(
-    //           `Information of '${newPerson.name}' has already been removed from server`
-    //         );
-    //         setTimeout(() => {
-    //           setErrorMessage(null);
-    //         }, 5000);
-    //         // setNotes(notes.filter((n) => n.id !== id));
-    //       });
+          .catch((error) => {
+            console.log("entro al error que yo queria!!!!");
+            console.log("error: ", error);
+            setErrorMessage(
+              `Information of '${newPerson.name}' has already been removed from server`
+            );
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 5000);
+            // setNotes(notes.filter((n) => n.id !== id));
+          });
 
-    //     return;
-    //   } else {
-    //     return;
-    //   }
-    // }
+        return;
+      } else {
+        return;
+      }
+    }
 
     backendCom
       .createNewPerson(newPerson)
