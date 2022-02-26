@@ -130,13 +130,13 @@ describe('addition of a new blog', () => {
             url: 'https',
         }
 
-        const banana = await api
+        const response = await api
             .post('/api/blogs')
             .set('Authorization', `bearer ${loggedUser.body.token}`)
             .send(bodyToPost)
 
 
-        expect(banana.body.likes).toBe(0)
+        expect(response.body.likes).toBe(0)
 
     })
 
