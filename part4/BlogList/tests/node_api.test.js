@@ -11,21 +11,26 @@ const bcrypt = require('bcrypt')
 
 
 beforeEach(
+    
     async() => {
+        
+        
         //Creates the initial users
         await User.deleteMany({})
         const userObject = helper.initialUsers.map(user => new User(user))
         const userPromiseArray = userObject.map(user => user.save())
 
+
         //Creates the initial notes
         await Blog.deleteMany({})
         const blogObject = helper.initialBlogs.map(blog => new Blog(blog))
         const blogPromiseArray = blogObject.map(blog => blog.save())
+       
 
         //Saves users and notes to the database
         await Promise.all(blogPromiseArray, userPromiseArray)
 
-    })
+    },30000)
 
 
 describe('when there is initially some blogs saved', () => {
