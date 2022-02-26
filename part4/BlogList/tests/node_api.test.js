@@ -244,6 +244,46 @@ describe('when there is initially one user in db', () => {
 
     })
 
+    test('user creation fails with proper status code and message if an invalid (<3 char) username is provided', async() => {
+
+
+        const newUser = {
+            username: 'Ma',
+            name: 'Edgardo Gomez',
+            password: 'banana'
+        }
+        const response =  await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+       
+
+        expect(response.body).toEqual({ error: 'username and password must have at least 3 characters' })
+
+
+    })
+
+    test('user creation fails with proper status code and message if an invalid (<3 char) password is provided', async() => {
+
+
+        const newUser = {
+            username: 'EduGmas',
+            name: 'Edgardo Gomez',
+            password: 'ba'
+        }
+        const response =  await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+
+        expect(response.body).toEqual({ error: 'username and password must have at least 3 characters' })
+
+
+    })
+
     test('creation fails with proper status code and message if username already taken', async() => {
 
         const usersAtStart = await helper.usersInDb()
