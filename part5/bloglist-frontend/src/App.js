@@ -15,6 +15,16 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
+  useEffect(() => {
+    const loggedBlogAppUserJSON =
+      window.localStorage.getItem("loggedBlogAppUser");
+    if (loggedBlogAppUserJSON) {
+      const user = JSON.parse(loggedBlogAppUserJSON);
+      setUser(user);
+      // blogService.setToken(user.token);
+    }
+  }, []);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -22,7 +32,7 @@ const App = () => {
         username,
         password,
       });
-      console.log("pasa y el user es:", user);
+      window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
       setUser(user);
       setUsername("");
       setPassword("");
@@ -34,29 +44,34 @@ const App = () => {
     }
   };
 
-  // {user === null ?
-  //   loginForm() :
-  //   noteForm()
-  // }
+  const handleLogout = () => {
+    window.localStorage.removeItem("loggedBlogAppUser");
+    setUser(null);
+  };
 
   return (
     <div>
-      <div>
-        {/* <Notification message={errorMessage} /> */}//TODO hacer esto
-      </div>
-      <div>
-        <h2>blogs</h2>
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
-      </div>
-      <LoginForm
-        handleLogin={handleLogin}
-        username={username}
-        setUsername={setUsername}
-        password={password}
-        setPassword={setPassword}
-      />
+      {user === null ? (
+        <div>
+          <h2>Log in to application</h2>
+          <LoginForm
+            handleLogin={handleLogin}
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+          />
+        </div>
+      ) : (
+        <div>
+          <h2>Blogs</h2>
+          <p>{user.name} logged in</p>
+          {blogs.map((blog) => (
+            <Blog key={blog.id} blog={blog} />
+          ))}
+          <button onClick={handleLogout}>logout</button>
+        </div>
+      )}
     </div>
   );
 };
