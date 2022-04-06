@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import blogService from "../services/blogService";
 
-export default function NewBlogForm({ setBlogs, blogs }) {
+export default function NewBlogForm({ setBlogs, blogs, setSuccessMessage }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setURL] = useState("");
@@ -10,6 +10,12 @@ export default function NewBlogForm({ setBlogs, blogs }) {
   function handlePostBlog(event) {
     event.preventDefault();
     blogService.create({ title, author, url }).then((newBlog) => {
+      setSuccessMessage(
+        `a new blog ${newBlog.title} by ${newBlog.author} added`
+      );
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 3000);
       setBlogs(blogs.concat(newBlog));
       setTitle("");
       setAuthor("");
