@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogService";
 import LoginForm from "./components/LoginForm";
@@ -11,6 +11,8 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [user, setUser] = useState(null);
+
+  const postFormRef = useRef();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -35,25 +37,36 @@ const App = () => {
     <div>
       {user === null ? (
         <div>
-          <h2>Log in to application</h2>
-          <Notification message={errorMessage} type={"error"} />
-
-          <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} />
+          <LoginForm
+            setUser={setUser}
+            setErrorMessage={setErrorMessage}
+            errorMessage={errorMessage}
+          />
         </div>
       ) : (
         <div>
           <h2>Blogs</h2>
           <Notification message={successMessage} type={"success"} />
-          <p>{user.name} logged in</p>
-          <button onClick={handleLogout}>logout</button>
+          <div style={{ display: "inline-block" }}>
+            <p>{user.name} logged in</p>
+          </div>
+          <div style={{ display: "inline-block" }}>
+            <button onClick={handleLogout}>logout</button>
+          </div>
+
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
-          <Togglable buttonLabel="new blog">
+          <Togglable
+            buttonLabel="new blog"
+            ref={postFormRef}
+            childButtonLabel="cancel"
+          >
             <NewBlogForm
               blogs={blogs}
               setBlogs={setBlogs}
               setSuccessMessage={setSuccessMessage}
+              postFormRef={postFormRef}
             />
           </Togglable>
         </div>

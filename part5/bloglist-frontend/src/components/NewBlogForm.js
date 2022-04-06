@@ -2,7 +2,12 @@ import React from "react";
 import { useState } from "react";
 import blogService from "../services/blogService";
 
-export default function NewBlogForm({ setBlogs, blogs, setSuccessMessage }) {
+export default function NewBlogForm({
+  setBlogs,
+  blogs,
+  setSuccessMessage,
+  postFormRef,
+}) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setURL] = useState("");
@@ -20,6 +25,7 @@ export default function NewBlogForm({ setBlogs, blogs, setSuccessMessage }) {
       setTitle("");
       setAuthor("");
       setURL("");
+      postFormRef.current.toggleVisibility();
     });
   }
   return (
