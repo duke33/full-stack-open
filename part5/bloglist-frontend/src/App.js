@@ -54,11 +54,8 @@ const App = () => {
             <button onClick={handleLogout}>logout</button>
           </div>
 
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
-          ))}
           <Togglable
-            buttonLabel="new blog"
+            buttonLabel="create new blog"
             ref={postFormRef}
             childButtonLabel="cancel"
           >
@@ -69,6 +66,9 @@ const App = () => {
               postFormRef={postFormRef}
             />
           </Togglable>
+          {blogs.map((blog) => (
+            <Blog key={blog.id} blog={blog} />
+          ))}
         </div>
       )}
     </div>
