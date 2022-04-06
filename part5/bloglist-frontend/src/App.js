@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
-import blogService from "./services/blogs";
+import blogService from "./services/blogService";
 import helpers from "./services/login";
 import LoginForm from "./components/LoginForm";
+import NewBlogForm from "./components/NewBlogForm";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
@@ -21,7 +24,7 @@ const App = () => {
     if (loggedBlogAppUserJSON) {
       const user = JSON.parse(loggedBlogAppUserJSON);
       setUser(user);
-      // blogService.setToken(user.token);
+      blogService.setToken(user.token);
     }
   }, []);
 
@@ -33,11 +36,12 @@ const App = () => {
         password,
       });
       window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
+      helpers.setToken(user.token);
       setUser(user);
       setUsername("");
       setPassword("");
     } catch (exception) {
-      setErrorMessage("Wrong credentials");
+      setErrorMessage("Wrong username or password");
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
@@ -54,6 +58,8 @@ const App = () => {
       {user === null ? (
         <div>
           <h2>Log in to application</h2>
+          <Notification message={errorMessage} />
+
           <LoginForm
             handleLogin={handleLogin}
             username={username}
@@ -66,10 +72,11 @@ const App = () => {
         <div>
           <h2>Blogs</h2>
           <p>{user.name} logged in</p>
+          <button onClick={handleLogout}>logout</button>
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
-          <button onClick={handleLogout}>logout</button>
+          <NewBlogForm blogs={blogs} setBlogs={setBlogs} />
         </div>
       )}
     </div>
