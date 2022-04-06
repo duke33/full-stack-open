@@ -1,8 +1,9 @@
 import { useState } from "react";
 import helpers from "../services/login";
 import blogService from "../services/blogService";
+import Notification from "../components/Notification";
 
-export default function LoginForm({ setUser, setErrorMessage }) {
+export default function LoginForm({ setUser, setErrorMessage, errorMessage }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -28,6 +29,8 @@ export default function LoginForm({ setUser, setErrorMessage }) {
 
   return (
     <div>
+      <h2>Log in to application</h2>
+      <Notification message={errorMessage} type={"error"} />
       <form onSubmit={handleLogin}>
         <div>
           username
