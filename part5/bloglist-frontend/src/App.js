@@ -1,19 +1,15 @@
 import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogService";
-import helpers from "./services/login";
 import LoginForm from "./components/LoginForm";
 import NewBlogForm from "./components/NewBlogForm";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -30,26 +26,6 @@ const App = () => {
     }
   }, []);
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    try {
-      const user = await helpers.login({
-        username,
-        password,
-      });
-      window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUser(user);
-      setUsername("");
-      setPassword("");
-    } catch (exception) {
-      setErrorMessage("Wrong username or password");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
-    }
-  };
-
   const handleLogout = () => {
     window.localStorage.removeItem("loggedBlogAppUser");
     setUser(null);
@@ -62,13 +38,7 @@ const App = () => {
           <h2>Log in to application</h2>
           <Notification message={errorMessage} type={"error"} />
 
-          <LoginForm
-            handleLogin={handleLogin}
-            username={username}
-            setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}
-          />
+          <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} />
         </div>
       ) : (
         <div>
@@ -79,11 +49,13 @@ const App = () => {
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
-          <NewBlogForm
-            blogs={blogs}
-            setBlogs={setBlogs}
-            setSuccessMessage={setSuccessMessage}
-          />
+          <Togglable buttonLabel="new blog">
+            <NewBlogForm
+              blogs={blogs}
+              setBlogs={setBlogs}
+              setSuccessMessage={setSuccessMessage}
+            />
+          </Togglable>
         </div>
       )}
     </div>
