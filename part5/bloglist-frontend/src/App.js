@@ -24,6 +24,9 @@ const App = () => {
     if (loggedBlogAppUserJSON) {
       const user = JSON.parse(loggedBlogAppUserJSON);
       setUser(user);
+      console.log("[1;35m entra al effect que hace el set token");
+      console.log("[1;33m user.token", user.token);
+
       blogService.setToken(user.token);
     }
   }, []);
@@ -71,7 +74,13 @@ const App = () => {
               return b.likes - a.likes;
             })
             .map((blog) => (
-              <Blog key={blog.id} blog={blog} />
+              <Blog
+                key={blog.id}
+                blog={blog}
+                user={user}
+                setBlogs={setBlogs}
+                blogs={blogs}
+              />
             ))}
         </div>
       )}

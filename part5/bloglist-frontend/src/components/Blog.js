@@ -1,7 +1,8 @@
 import { useState } from "react";
 import blogService from "../services/blogService";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, user, setBlogs, blogs }) => {
+  console.log("blog", blog);
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -10,19 +11,31 @@ const Blog = ({ blog }) => {
     marginBottom: 5,
   };
 
+  const isOwner = user.id === blog.user;
+  console.log("isOwner", isOwner);
+  console.log("user.id", user.id);
+  console.log("blog.user", blog.user);
   const [likes, setLikes] = useState(blog.likes);
 
   const [summaryViewVisible, setSummaryViewVisible] = useState(true);
 
-  const handleClick = () => {
+  const handleVisibilityClick = () => {
     setSummaryViewVisible(!summaryViewVisible);
   };
 
-  const likeClick = () => {
+  const handleLikeClick = () => {
     const { _id } = blog;
     const newLikes = likes + 1;
     blogService.giveALike({ newLikes }, _id).then(() => {
       setLikes(newLikes);
+    });
+  };
+
+  const handleRemoveClick = () => {
+    const { _id } = blog;
+    blogService.deleteBlog(_id).then(() => {
+      setBlogs(blogs.filter((b) => b._id !== _id));
+      console.log("blog borrado");
     });
   };
 
@@ -31,20 +44,26 @@ const Blog = ({ blog }) => {
       {summaryViewVisible === true ? (
         <div style={blogStyle}>
           <div>
-            {blog.title} <button onClick={handleClick}>View</button>
+            {blog.title} <button onClick={handleVisibilityClick}>View</button>
           </div>
         </div>
       ) : (
         <div style={blogStyle}>
           <div>
             <div>
-              {blog.title} <button onClick={handleClick}>Hide</button>
+              {blog.title} <button onClick={handleVisibilityClick}>Hide</button>
             </div>
             <div>{blog.url}</div>
             <div>
-              likes {likes} <button onClick={() => likeClick()}>Like</button>
+              likes {likes}{" "}
+              <button onClick={() => handleLikeClick()}>Like</button>
             </div>
             <div>{blog.author}</div>
+            {isOwner && (
+              <div>
+                <button onClick={() => handleRemoveClick()}>Remove</button>
+              </div>
+            )}
           </div>
         </div>
       )}
