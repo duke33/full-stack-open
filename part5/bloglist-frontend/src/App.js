@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import Blog from "./components/Blog";
 import blogService from "./services/blogService";
 import LoginForm from "./components/LoginForm";
 import NewBlogForm from "./components/NewBlogForm";
-import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
-
+import LoggedInHeader from "./components/LoggedInHeader";
+import BlogPanel from "./components/BlogPanel";
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -29,11 +28,6 @@ const App = () => {
     }
   }, []);
 
-  const handleLogout = () => {
-    window.localStorage.removeItem("loggedBlogAppUser");
-    setUser(null);
-  };
-
   return (
     <div>
       {user === null ? (
@@ -46,14 +40,11 @@ const App = () => {
         </div>
       ) : (
         <div>
-          <h2>Blogs</h2>
-          <Notification message={successMessage} type={"success"} />
-          <div style={{ display: "inline-block" }}>
-            <p>{user.name} logged in</p>
-          </div>
-          <div style={{ display: "inline-block" }}>
-            <button onClick={handleLogout}>logout</button>
-          </div>
+          <LoggedInHeader
+            user={user}
+            setUser={setUser}
+            successMessage={successMessage}
+          />
 
           <Togglable
             buttonLabel="create new blog"
@@ -67,19 +58,8 @@ const App = () => {
               postFormRef={postFormRef}
             />
           </Togglable>
-          {blogs
-            .sort(function (a, b) {
-              return b.likes - a.likes;
-            })
-            .map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                user={user}
-                setBlogs={setBlogs}
-                blogs={blogs}
-              />
-            ))}
+
+          <BlogPanel blogs={blogs} setBlogs={setBlogs} user={user} />
         </div>
       )}
     </div>
