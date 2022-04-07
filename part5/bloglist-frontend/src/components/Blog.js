@@ -28,10 +28,12 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
   };
 
   const handleRemoveClick = () => {
-    const { _id } = blog;
-    blogService.deleteBlog(_id).then(() => {
-      setBlogs(blogs.filter((b) => b._id !== _id));
-    });
+    if (window.confirm(`Remove blog: ${blog.title} ?`)) {
+      const { _id } = blog;
+      blogService.deleteBlog(_id).then(() => {
+        setBlogs(blogs.filter((b) => b._id !== _id));
+      });
+    }
   };
 
   return (
