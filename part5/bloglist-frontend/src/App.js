@@ -24,8 +24,6 @@ const App = () => {
     if (loggedBlogAppUserJSON) {
       const user = JSON.parse(loggedBlogAppUserJSON);
       setUser(user);
-      console.log("[1;35m entra al effect que hace el set token");
-      console.log("[1;33m user.token", user.token);
 
       blogService.setToken(user.token);
     }

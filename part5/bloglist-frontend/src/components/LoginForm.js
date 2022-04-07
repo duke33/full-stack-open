@@ -15,8 +15,6 @@ export default function LoginForm({ setUser, setErrorMessage, errorMessage }) {
         password,
       });
       window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
-      console.log("pasa por el set token de login");
-      console.log("user.token", user.token);
 
       blogService.setToken(user.token);
       setUser(user);

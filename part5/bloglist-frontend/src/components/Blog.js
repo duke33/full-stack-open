@@ -2,7 +2,6 @@ import { useState } from "react";
 import blogService from "../services/blogService";
 
 const Blog = ({ blog, user, setBlogs, blogs }) => {
-  console.log("blog", blog);
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -12,9 +11,6 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
   };
 
   const isOwner = user.id === blog.user;
-  console.log("isOwner", isOwner);
-  console.log("user.id", user.id);
-  console.log("blog.user", blog.user);
   const [likes, setLikes] = useState(blog.likes);
 
   const [summaryViewVisible, setSummaryViewVisible] = useState(true);
@@ -35,7 +31,6 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
     const { _id } = blog;
     blogService.deleteBlog(_id).then(() => {
       setBlogs(blogs.filter((b) => b._id !== _id));
-      console.log("blog borrado");
     });
   };
 
@@ -44,7 +39,7 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
       {summaryViewVisible === true ? (
         <div style={blogStyle}>
           <div>
-            {blog.title - blog.author}{" "}
+            {blog.title} - {blog.author}{" "}
             <button onClick={handleVisibilityClick}>View</button>
           </div>
         </div>
