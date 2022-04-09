@@ -1,11 +1,11 @@
-import React from "react";
-import Blog from "./Blog";
+import React from 'react'
+import Blog from './Blog'
 export default function BlogPanel({ blogs, user, setBlogs }) {
   return (
     <div>
       {blogs
         .sort(function (a, b) {
-          return b.likes - a.likes;
+          return b.likes - a.likes
         })
         .map((blog) => (
           <Blog
@@ -17,5 +17,5 @@ export default function BlogPanel({ blogs, user, setBlogs }) {
           />
         ))}
     </div>
-  );
+  )
 }

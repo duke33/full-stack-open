@@ -1,6 +1,6 @@
-import React from "react";
-import { useState } from "react";
-import blogService from "../services/blogService";
+import React from 'react'
+import { useState } from 'react'
+import blogService from '../services/blogService'
 
 export default function NewBlogForm({
   setBlogs,
@@ -8,25 +8,25 @@ export default function NewBlogForm({
   setSuccessMessage,
   postFormRef,
 }) {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setURL] = useState("");
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setURL] = useState('')
 
   function handlePostBlog(event) {
-    event.preventDefault();
+    event.preventDefault()
     blogService.create({ title, author, url }).then((newBlog) => {
       setSuccessMessage(
         `a new blog ${newBlog.title} by ${newBlog.author} added`
-      );
+      )
       setTimeout(() => {
-        setSuccessMessage(null);
-      }, 3000);
-      setBlogs(blogs.concat(newBlog));
-      setTitle("");
-      setAuthor("");
-      setURL("");
-      postFormRef.current.toggleVisibility();
-    });
+        setSuccessMessage(null)
+      }, 3000)
+      setBlogs(blogs.concat(newBlog))
+      setTitle('')
+      setAuthor('')
+      setURL('')
+      postFormRef.current.toggleVisibility()
+    })
   }
   return (
     <div>
@@ -62,5 +62,5 @@ export default function NewBlogForm({
         <button type="submit">create</button>
       </form>
     </div>
-  );
+  )
 }

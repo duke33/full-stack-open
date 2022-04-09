@@ -1,32 +1,32 @@
-import { useState, useEffect, useRef } from "react";
-import blogService from "./services/blogService";
-import LoginForm from "./components/LoginForm";
-import NewBlogForm from "./components/NewBlogForm";
-import Togglable from "./components/Togglable";
-import LoggedInHeader from "./components/LoggedInHeader";
-import BlogPanel from "./components/BlogPanel";
+import { useState, useEffect, useRef } from 'react'
+import blogService from './services/blogService'
+import LoginForm from './components/LoginForm'
+import NewBlogForm from './components/NewBlogForm'
+import Togglable from './components/Togglable'
+import LoggedInHeader from './components/LoggedInHeader'
+import BlogPanel from './components/BlogPanel'
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
-  const [user, setUser] = useState(null);
+  const [blogs, setBlogs] = useState([])
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [user, setUser] = useState(null)
 
-  const postFormRef = useRef();
+  const postFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+    blogService.getAll().then((blogs) => setBlogs(blogs))
+  }, [])
 
   useEffect(() => {
     const loggedBlogAppUserJSON =
-      window.localStorage.getItem("loggedBlogAppUser");
+      window.localStorage.getItem('loggedBlogAppUser')
     if (loggedBlogAppUserJSON) {
-      const user = JSON.parse(loggedBlogAppUserJSON);
-      setUser(user);
+      const user = JSON.parse(loggedBlogAppUserJSON)
+      setUser(user)
 
-      blogService.setToken(user.token);
+      blogService.setToken(user.token)
     }
-  }, []);
+  }, [])
 
   return (
     <div>
@@ -63,7 +63,7 @@ const App = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

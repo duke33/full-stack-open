@@ -1,47 +1,47 @@
-import { useState } from "react";
-import blogService from "../services/blogService";
+import { useState } from 'react'
+import blogService from '../services/blogService'
 
 const Blog = ({ blog, user, setBlogs, blogs }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: "solid",
+    border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-  };
+  }
 
-  const isOwner = user.id === blog.user;
-  const [likes, setLikes] = useState(blog.likes);
+  const isOwner = user.id === blog.user
+  const [likes, setLikes] = useState(blog.likes)
 
-  const [summaryViewVisible, setSummaryViewVisible] = useState(true);
+  const [summaryViewVisible, setSummaryViewVisible] = useState(true)
 
   const handleVisibilityClick = () => {
-    setSummaryViewVisible(!summaryViewVisible);
-  };
+    setSummaryViewVisible(!summaryViewVisible)
+  }
 
   const handleLikeClick = () => {
-    const { _id } = blog;
-    const newLikes = likes + 1;
+    const { _id } = blog
+    const newLikes = likes + 1
     blogService.giveALike({ newLikes }, _id).then(() => {
-      setLikes(newLikes);
-    });
-  };
+      setLikes(newLikes)
+    })
+  }
 
   const handleRemoveClick = () => {
     if (window.confirm(`Remove blog: ${blog.title} ?`)) {
-      const { _id } = blog;
+      const { _id } = blog
       blogService.deleteBlog(_id).then(() => {
-        setBlogs(blogs.filter((b) => b._id !== _id));
-      });
+        setBlogs(blogs.filter((b) => b._id !== _id))
+      })
     }
-  };
+  }
 
   return (
     <div>
       {summaryViewVisible === true ? (
         <div style={blogStyle}>
           <div>
-            {blog.title} - {blog.author}{" "}
+            {blog.title} - {blog.author}{' '}
             <button onClick={handleVisibilityClick}>View</button>
           </div>
         </div>
@@ -53,7 +53,7 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
             </div>
             <div>{blog.url}</div>
             <div>
-              likes {likes}{" "}
+              likes {likes}{' '}
               <button onClick={() => handleLikeClick()}>Like</button>
             </div>
             <div>{blog.author}</div>
@@ -66,6 +66,6 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
         </div>
       )}
     </div>
-  );
-};
-export default Blog;
+  )
+}
+export default Blog
