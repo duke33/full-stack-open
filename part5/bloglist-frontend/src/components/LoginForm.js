@@ -1,4 +1,5 @@
 import { useState } from "react";
+import propTypes from "prop-types";
 import helpers from "../services/login";
 import blogService from "../services/blogService";
 import Notification from "../components/Notification";
@@ -56,3 +57,9 @@ export default function LoginForm({ setUser, setErrorMessage, errorMessage }) {
     </div>
   );
 }
+
+LoginForm.propTypes = {
+  setUser: propTypes.func.isRequired,
+  setErrorMessage: propTypes.func.isRequired,
+  errorMessage: propTypes.string,
+};
