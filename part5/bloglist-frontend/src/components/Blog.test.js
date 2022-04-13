@@ -15,12 +15,18 @@ test('renders content', () => {
   }
 
 
-  render(<Blog
+  const { container } =   render(<Blog
     key={blog._id}
     blog={blog}
     user={blog.user}
   />)
 
-  const element = screen.getByText( `${blog.title} - ${blog.author}`)
-  expect(element).toBeDefined()
+  const div = container.querySelector('.blogShort')
+
+  expect(div).toBeDefined()
+
+  expect(div).toHaveTextContent(
+    `${blog.title} - ${blog.author}`
+  )
+
 })
