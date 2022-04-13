@@ -40,7 +40,7 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
     <div>
       {summaryViewVisible === true ? (
         <div style={blogStyle}>
-          <div>
+          <div className='blogShort'>
             {blog.title} - {blog.author}{' '}
             <button onClick={handleVisibilityClick}>View</button>
           </div>
