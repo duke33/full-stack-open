@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogService'
 
-const Blog = ({ blog, user, setBlogs, blogs }) => {
+const Blog = ({ blog, user, setBlogs, blogs, handleLikeClick }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -19,13 +19,7 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
     setSummaryViewVisible(!summaryViewVisible)
   }
 
-  const handleLikeClick = () => {
-    const { _id } = blog
-    const newLikes = likes + 1
-    blogService.giveALike({ newLikes }, _id).then(() => {
-      setLikes(newLikes)
-    })
-  }
+
 
   const handleRemoveClick = () => {
     if (window.confirm(`Remove blog: ${blog.title} ?`)) {
@@ -48,13 +42,13 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
       ) : (
         <div style={blogStyle}>
           <div>
-            <div>
+            <div className='blogLong'>
               {blog.title} <button onClick={handleVisibilityClick}>Hide</button>
             </div>
             <div>{blog.url}</div>
-            <div>
+            <div className="likes">
               likes {likes}{' '}
-              <button onClick={() => handleLikeClick()}>Like</button>
+              <button onClick={() => handleLikeClick(likes,setLikes,blog)}>Like</button>
             </div>
             <div>{blog.author}</div>
             {isOwner && (
