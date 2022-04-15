@@ -36,7 +36,7 @@ const Blog = ({ blog, user, setBlogs, blogs, handleLikeClick }) => {
         <div style={blogStyle}>
           <div className='blogShort'>
             {blog.title} - {blog.author}{' '}
-            <button onClick={handleVisibilityClick}>View</button>
+            <button id="viewButton" onClick={handleVisibilityClick}>View</button>
           </div>
         </div>
       ) : (
@@ -48,12 +48,12 @@ const Blog = ({ blog, user, setBlogs, blogs, handleLikeClick }) => {
             <div>{blog.url}</div>
             <div className="likes">
               likes {likes}{' '}
-              <button onClick={() => handleLikeClick(likes,setLikes,blog)}>Like</button>
+              <button id="likeButton" onClick={() => handleLikeClick(likes,setLikes,blog)}>Like</button>
             </div>
             <div>{blog.author}</div>
             {isOwner && (
               <div>
-                <button onClick={() => handleRemoveClick()}>Remove</button>
+                <button id="removeButton" onClick={() => handleRemoveClick()}>Remove</button>
               </div>
             )}
           </div>
