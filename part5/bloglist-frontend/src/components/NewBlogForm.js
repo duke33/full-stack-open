@@ -59,7 +59,7 @@ export default function NewBlogForm({
             onChange={({ target }) => setURL(target.value)}
           />
         </div>
-        <button type="submit">create</button>
+        <button id="create-new-blog" type="submit">create</button>
       </form>
     </div>
   )
