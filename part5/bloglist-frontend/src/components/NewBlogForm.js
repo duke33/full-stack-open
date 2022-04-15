@@ -1,12 +1,12 @@
 import React from 'react'
 import { useState } from 'react'
-import blogService from '../services/blogService'
 
 export default function NewBlogForm({
   setBlogs,
   blogs,
   setSuccessMessage,
   postFormRef,
+  create
 }) {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -14,7 +14,7 @@ export default function NewBlogForm({
 
   function handlePostBlog(event) {
     event.preventDefault()
-    blogService.create({ title, author, url }).then((newBlog) => {
+    create({ title, author, url }).then((newBlog) => {
       setSuccessMessage(
         `a new blog ${newBlog.title} by ${newBlog.author} added`
       )
@@ -31,13 +31,13 @@ export default function NewBlogForm({
   return (
     <div>
       <h2>Create new blog</h2>
-      <form onSubmit={handlePostBlog}>
+      <form onSubmit={(e) => handlePostBlog(e,create)}>
         <div>
           title
           <input
             type="text"
             value={title}
-            name="title"
+            id="title"
             onChange={({ target }) => setTitle(target.value)}
           />
         </div>
@@ -46,7 +46,7 @@ export default function NewBlogForm({
           <input
             type="text"
             value={author}
-            name="author"
+            id="author"
             onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
@@ -55,7 +55,7 @@ export default function NewBlogForm({
           <input
             type="text"
             value={url}
-            name="url"
+            id="url"
             onChange={({ target }) => setURL(target.value)}
           />
         </div>

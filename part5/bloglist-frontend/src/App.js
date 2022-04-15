@@ -56,6 +56,7 @@ const App = () => {
               setBlogs={setBlogs}
               setSuccessMessage={setSuccessMessage}
               postFormRef={postFormRef}
+              create={blogService.create}
             />
           </Togglable>
 
