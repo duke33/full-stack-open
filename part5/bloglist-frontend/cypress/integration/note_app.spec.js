@@ -1,3 +1,5 @@
+import { times } from 'lodash'
+
 describe('Blog app', function() {
 
   beforeEach(function() {
@@ -71,48 +73,49 @@ describe('Blog app', function() {
 
     })
 
-    describe('and a note exists', function () {
-      beforeEach(function () {
-        cy.contains('new note').click()
-        cy.get('input').type('another note cypress')
-        cy.contains('save').click()
-      })
-      it('it can be made important', function () {
-        // ...
-      })
-    })
+    // describe('and a note exists', function () {
+    //   beforeEach(function () {
+    //     cy.contains('new note').click()
+    //     cy.get('input').type('another note cypress')
+    //     cy.contains('save').click()
+    //   })
+    //   it('it can be made important', function () {
+    //     // ...
+    //   })
+    // })
 
     it.only('blogs are ordered according to likes with the blog with the most likes being first', function() {
+
       //Create three blogs
-      cy.contains('create new blog').click()
-      cy.get('#title').type('0 Likes')
-      cy.get('#author').type('Mariano')
-      cy.get('#url').type('https://www.cypress.io/')
-      cy.get('#create').click()
 
-      cy.contains('create new blog').click()
-      cy.get('#title').type('3 likes')
-      cy.get('#author').type('Mariano')
-      cy.get('#url').type('https://www.cypress.io/')
-      cy.get('#create').click()
+      cy.createBlog({ title: '0 Likes', author: 'Mariano', url: 'https://www.cypress.io/' })
+      cy.createBlog({ title: '3 likes', author: 'Mariano', url: 'https://www.cypress.io/',  })
+      cy.createBlog({ title: '2 likes', author: 'Mariano', url: 'https://www.cypress.io/',  })
 
-      cy.contains('create new blog').click()
-      cy.get('#title').type('2 likes')
-      cy.get('#author').type('Mariano')
-      cy.get('#url').type('https://www.cypress.io/')
-      cy.get('#create').click()
-
-      cy.get('#viewButton').click()
-      cy.get('#likeButton').click()
-
+      //Reload the page
       cy.reload()
+
+      //Open blog detail and click Like X times
+
+      cy.contains('3 likes').contains('View').click()
+      _.times(3, () => cy.contains('3 likes').parent().find('#likeButton').click().wait(500))
+
+      cy.contains('2 likes').contains('View').click()
+      _.times(2, () => cy.contains('2 likes').parent().find('#likeButton').click().wait(500))
+
+      //Reload the page to force reordering list by likes
+      cy.reload()
+
+      //Check that the blogs are ordered according to likes
+      cy.get('.blogShort').then(blogs => {
+        expect(blogs[0].innerText).to.contain('3 likes')
+        expect(blogs[1].innerText).to.contain('2 likes')
+        expect(blogs[2].innerText).to.contain('0 Likes')
+      })
 
 
 
     })
 
-
-
   })
-
 })
