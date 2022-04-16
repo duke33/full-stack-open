@@ -42,10 +42,9 @@ describe('Blog app', function() {
 
   describe('When logged in', function() {
     beforeEach(function() {
-      cy.get('#username').type('dule_33')
-      cy.get('#password').type('adksjlflkjsdflk')
-      cy.get('#login-button').click()
-      cy.contains('Mariano logged in')
+
+      cy.login({ username: 'dule_33', password: 'adksjlflkjsdflk' })
+
     })
 
     it('A blog can be created be liked and deleted', function() {
@@ -70,6 +69,17 @@ describe('Blog app', function() {
       cy.get('.blogLong').should('not.exist')
 
 
+    })
+
+    describe('and a note exists', function () {
+      beforeEach(function () {
+        cy.contains('new note').click()
+        cy.get('input').type('another note cypress')
+        cy.contains('save').click()
+      })
+      it('it can be made important', function () {
+        // ...
+      })
     })
 
     it.only('blogs are ordered according to likes with the blog with the most likes being first', function() {
