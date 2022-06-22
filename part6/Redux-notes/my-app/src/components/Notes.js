@@ -14,10 +14,6 @@ const Notes = () => {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state);
 
-  const toggleImportance = (id) => {
-    dispatch(toggleImportanceOf(id));
-  };
-
   return (
     <div>
       <ul>
@@ -26,7 +22,7 @@ const Notes = () => {
             key={note.id}
             note={note}
             handleClick={() => {
-              toggleImportanceOf(note.id);
+              dispatch(toggleImportanceOf(note.id));
             }}
           />
         ))}
