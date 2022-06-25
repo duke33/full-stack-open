@@ -6,15 +6,17 @@ import { voteMessage, emptyMessage } from "../reducers/messageReducer";
 const AnecdoteList = () => {
   const dispatch = useDispatch();
   const anecdotes = useSelector((state) => state.anecdote);
+
   const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes);
-  const filter = useSelector((state) => state.filter);
-  const filteredAnecdotes = sortedAnecdotes.filter((anecdote) =>
-    anecdote.content.includes(filter)
-  );
+
+  // const filter = useSelector((state) => state.filter);
+  // const filteredAnecdotes = sortedAnecdotes.filter((anecdote) => {
+  //   return anecdote.content.includes(filter);
+  // });
 
   return (
     <div>
-      {filteredAnecdotes.map((anecdote) => (
+      {anecdotes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>
