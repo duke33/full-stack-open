@@ -31,16 +31,9 @@
       "votes": 0
     },
     {
-      "content": "Esta nota es de prueba y tiene que haber persistencia",
-      "id": "bT5ij7J"
-    },
-    {
-      "content": "Prueba ",
-      "id": "o9MfXcX"
-    },
-    {
-      "content": "test2",
-      "id": "Ed9rUXr"
+      "content": "Nota de prueba",
+      "votes": 0,
+      "id": "Hcq3a3L"
     }
   ]
 }

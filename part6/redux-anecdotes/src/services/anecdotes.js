@@ -8,7 +8,7 @@ const getAll = async () => {
 };
 
 const createNewAnecdote = async (content) => {
-  const response = await axios.post(baseUrl, { content });
+  const response = await axios.post(baseUrl, { content, votes: 0 });
   return response.data;
 };
 
