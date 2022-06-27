@@ -9,14 +9,14 @@ const AnecdoteList = () => {
 
   const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes);
 
-  // const filter = useSelector((state) => state.filter);
-  // const filteredAnecdotes = sortedAnecdotes.filter((anecdote) => {
-  //   return anecdote.content.includes(filter);
-  // });
+  const filter = useSelector((state) => state.filter);
+  const filteredAnecdotes = sortedAnecdotes.filter((anecdote) => {
+    return anecdote.content.includes(filter);
+  });
 
   return (
     <div>
-      {sortedAnecdotes.map((anecdote) => (
+      {filteredAnecdotes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>
