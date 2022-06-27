@@ -42,13 +42,18 @@
     },
     {
       "content": "nueva anecdota",
-      "votes": 0,
+      "votes": 2,
       "id": "VcwP6jG"
     },
     {
       "content": "asdasd",
       "votes": 0,
       "id": "wDi-443"
+    },
+    {
+      "content": "Prueba de nueva anecdota time put",
+      "votes": 1,
+      "id": "ZmfpvUc"
     }
   ]
 }

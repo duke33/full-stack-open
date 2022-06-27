@@ -6,7 +6,7 @@ const messageSlice = createSlice({
   name: "message",
   initialState,
   reducers: {
-    setNotification(state, action) {
+    setNotificationMessage(state, action) {
       const message = action.payload;
       return message;
     },
@@ -15,7 +15,17 @@ const messageSlice = createSlice({
     },
   },
 });
-export const { newAnecdoteMessage, setNotification, clearNotification } =
+
+export const setNotification = (message, timeOut) => {
+  const timeOutInMilliseconds = timeOut * 1000;
+  return (dispatch) => {
+    dispatch(setNotificationMessage(message));
+    setTimeout(() => {
+      dispatch(clearNotification());
+    }, timeOutInMilliseconds);
+  };
+};
+export const { newAnecdoteMessage, clearNotification, setNotificationMessage } =
   messageSlice.actions;
 
 export default messageSlice.reducer;
