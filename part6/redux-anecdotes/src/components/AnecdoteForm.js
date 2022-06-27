@@ -1,7 +1,6 @@
 import React from "react";
 import { createAnecdote } from "../reducers/anecdoteReducer";
 import { newAnecdoteMessage, emptyMessage } from "../reducers/messageReducer";
-import anecdoteService from "../services/anecdotes";
 
 import { useDispatch } from "react-redux";
 const AnecdoteForm = () => {
