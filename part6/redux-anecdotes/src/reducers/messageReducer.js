@@ -6,22 +6,16 @@ const messageSlice = createSlice({
   name: "message",
   initialState,
   reducers: {
-    newAnecdoteMessage(state, action) {
-      const anecdote = action.payload;
-      const message = `You created: "${anecdote}"`;
+    setNotification(state, action) {
+      const message = action.payload;
       return message;
     },
-    voteMessage(state, action) {
-      const anecdote = action.payload;
-      const message = `You voted for: "${anecdote}"`;
-      return message;
-    },
-    emptyMessage(state, action) {
+    clearNotification(state, action) {
       return "";
     },
   },
 });
-export const { newAnecdoteMessage, voteMessage, emptyMessage } =
+export const { newAnecdoteMessage, setNotification, clearNotification } =
   messageSlice.actions;
 
 export default messageSlice.reducer;
