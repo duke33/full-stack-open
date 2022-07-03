@@ -34,7 +34,7 @@ switch(true){
           throw new Error('Provided values were not numbers!');
 }
 
-}
+};
 
 // try {
 //     const { height, weight } = parseArguments(process.argv);
