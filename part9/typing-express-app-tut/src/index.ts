@@ -21,7 +21,7 @@ app.get('/api/ping', (_req, res) => {
 });
 
 app.use('/api/diagnoses',diagnosesRouter);
-app.get('/api/patients', patientRouter);
+app.use('/api/patients', patientRouter);
 
 
 
