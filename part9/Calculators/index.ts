@@ -22,7 +22,7 @@ res.json({
   bmi,
 });
 }catch(error:any){
-  res.send({
+  res.status(400).send({
     error: error.message
   });
 }})
