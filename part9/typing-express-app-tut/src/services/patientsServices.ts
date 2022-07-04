@@ -1,8 +1,7 @@
-import patientData from '../../data/patients.json';
 import {Patient, PatientNoSsn, newPatient} from '../types';
 import { v1 as uuid } from 'uuid';
+import patients from '../../data/patients';
 
-const patients:Array<Patient> = patientData;
 
 const getEntries = ():Array<Patient> => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
