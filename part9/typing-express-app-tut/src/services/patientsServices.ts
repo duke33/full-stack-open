@@ -1,5 +1,6 @@
 import patientData from '../../data/patients.json';
-import {Patient, PatientNoSsn} from '../types';
+import {Patient, PatientNoSsn, newPatient} from '../types';
+import { v1 as uuid } from 'uuid';
 
 const patients:Array<Patient> = patientData;
 
@@ -19,12 +20,19 @@ const getNonSsnPatients = ():Array<PatientNoSsn> => {
 };
 
 
+const addDPatient = (
+entry: newPatient
 
+): Patient => {
+ 
+const newPatient = 
+  {
+    id: uuid(),
+   ...entry
+  };
 
-
-
-const addDPatient = () => {
-  return null;
+  patients.push(newPatient);
+  return newPatient;
 };
 
 export default {
