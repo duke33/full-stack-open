@@ -1,9 +1,9 @@
-import diagnosesData from '../../data/diagnoses.json';
-import {DiagnoseEntry} from '../types';
+import diagnosesData from "../../data/diagnoses.json";
+import { DiagnoseEntry } from "../types";
 
-const diagnoses:Array<DiagnoseEntry> = diagnosesData;
+const diagnoses: Array<DiagnoseEntry> = diagnosesData;
 
-const getEntries = ():Array<DiagnoseEntry> => {
+const getEntries = (): Array<DiagnoseEntry> => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return diagnoses;
 };
@@ -14,5 +14,5 @@ const addDiagnose = () => {
 
 export default {
   getEntries,
-  addDiagnose
+  addDiagnose,
 };
